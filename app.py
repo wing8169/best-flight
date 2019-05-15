@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
-from country import get_countries_location, get_countries
+from country import *
 
 app = Flask(__name__, template_folder="templates")
 
@@ -14,6 +14,19 @@ GoogleMaps(
 # draw paths between countries
 def get_paths():
     paths = []
+    for link in countries_links:
+        paths.append(
+            {
+                'stroke_color': '#0AB0DE',
+                'stroke_opacity': 1.0,
+                'stroke_weight': 3,
+                'path': [
+                    countries[link[0]],
+                    countries[link[1]],
+                ]
+            }
+        )
+    return paths
     # polyline = {
     # 'stroke_color': '#0AB0DE',
     # 'stroke_opacity': 1.0,
@@ -44,8 +57,7 @@ def get_markers():
     #     'infobox': 'This is a marker'
     # }],
     markers = []
-    country_info = get_countries_location()
-    for country, latlng in country_info.items():
+    for country, latlng in countries.items():
         markers.append(
             {
                 'lat': latlng['lat'],
@@ -96,7 +108,7 @@ def mapview():
         varname="collapsible",
         lat=2.7455962,
         lng=101.7071602,
-        polylines=[polyline, path1, path2, path3, path4],
+        polylines=get_paths(),
         collapsible=True,
         zoom="3"
     )
