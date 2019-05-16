@@ -109,5 +109,11 @@ def chartTest():
     return render_template('untitled1.html', name='new_plot', url='/static/images/new_plot.png')
 
 
+@app.route('/call_this_function')
+def call_me():
+    print("hi")
+    return "None"
+
+
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=True)
