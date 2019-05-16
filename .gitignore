@@ -42,3 +42,7 @@ media/*
 .project
 .pydevproject
 venv
+
+# folders
+env/
+.vscode/

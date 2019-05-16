@@ -1,0 +1,3 @@
+run this command after added python into PATH
+
+pip install -r requirements.txt
