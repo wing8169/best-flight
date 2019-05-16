@@ -1,17 +1,41 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <title>Flask Google Maps Example</title>
-    {{
-      collapsible.js
-    }}
-  </head>
-  <body>
-    <h1>FC Sit Flight Planner</h1>
-    <h2>Map</h2>
-    <button id="collapsible_collapse">Show map</button>
-    {{ collapsible.html }}
-  </body>
-</html>
+{% extends "bootstrap/base.html" %} {% block title %}FC Sit Flight Planner{%
+endblock %} {% block scripts %}
+{{ collapsible.js }}
+{{ super() }}
+{% endblock %} {% block styles %}
+{{ super() }}
+<link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}" />
+{% endblock %}{% block navbar %}
+<div class="navbar navbar-fixed-top">
+  <!-- ... -->
+</div>
+{% endblock %} {% block content %}
+<div class="container">
+  <h1 class="text-center">FC Sit Flight Planner</h1>
+  <h2 class="text-center">Map</h2>
+  <button id="collapsible_collapse" class="center-block btn btn-primary btn-lg">
+    Show map
+  </button>
+
+  {{ collapsible.html }}
+
+  <form>
+    <fieldset>
+      <div class="form-group">
+        <label for="source">Flight From</label>
+        <select id="source" class="form-control">
+          <option>Disabled select</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="dest">Flight To</label>
+        <select id="dest" class="form-control">
+          <option>Disabled select</option>
+        </select>
+      </div>
+      <button type="submit" class="btn btn-primary center-block">Submit</button>
+    </fieldset>
+  </form>
+</div>
+
+{% endblock %}
