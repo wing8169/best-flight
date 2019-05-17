@@ -178,7 +178,7 @@ body {
   border-color: #ddd;
   background-color: #fff;
   margin-bottom: 50px;
-  width: 500px;
+  width: 400px;
   display: inline-block;
   border-style: solid;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
@@ -215,6 +215,9 @@ body {
   color: #fff;
   text-align: center;
   text-transform: uppercase;
+}
+.heading {
+  height: 60px;
 }
 
 /* -- price theme ------ */
@@ -290,11 +293,16 @@ body {
 
 .table {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  width: 100%;
 }
 
 #collapsible {
   border-style: solid;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.img-responsive {
+  height: 300px !important;
 }
 
 @media only screen and (max-width: 500px) {
@@ -309,16 +317,25 @@ body {
   #collapsible {
     height: 400px !important;
   }
+  .card-default {
+    width: 100%;
+  }
 }
 
 @media (min-width: 768px) {
   .container {
     width: 600px !important;
   }
+  .card-default {
+    width: 300px;
+  }
 }
 @media (min-width: 992px) {
   .container {
     width: 800px !important;
+  }
+  .card-default {
+    width: 350px;
   }
 }
 @media (min-width: 1200px) {

@@ -120,19 +120,21 @@ endblock %} {% block scripts %}
         Your Suitable Routes
       </h1>
     </div>
-    <table class="table" style="margin-top:30px;" id="resultTable">
-      <thead>
-        <tr style="background-color:red; color:white">
-          <th>No.</th>
-          <th>Paths</th>
-          <th>Total Distance (KM)</th>
-          <th>Political Sentiment Results</th>
-          <th>Score*</th>
-          <th>Probability Distribution of Users</th>
-        </tr>
-      </thead>
-      <tbody id="resultBody"></tbody>
-    </table>
+    <div class="table-responsive">
+      <table class="table" style="margin-top:30px;" id="resultTable">
+        <thead>
+          <tr style="background-color:red; color:white">
+            <th>No.</th>
+            <th>Paths</th>
+            <th>Total Distance (KM)</th>
+            <th>Political Sentiment Results</th>
+            <th>Score*</th>
+            <th>Probability Distribution of Users</th>
+          </tr>
+        </thead>
+        <tbody id="resultBody"></tbody>
+      </table>
+    </div>
     <p>Click on any row for more information.</p>
     <p style="margin-bottom: 100px">*Score: a + b = c</p>
   </div>
