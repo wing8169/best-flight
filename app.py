@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 from flask_googlemaps import GoogleMaps
 from flask_googlemaps import Map, icons
 from country import *
@@ -9,6 +9,8 @@ import random
 from flask import Response
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
+
+import paths
 
 app = Flask(__name__, template_folder="templates")
 
@@ -78,10 +80,12 @@ def mapview():
         zoom="3"
     )
 
+    countries_names = get_countries()
     return render_template(
         'main.html',
         collapsible=custom_map,
-        GOOGLEMAPS_KEY=request.args.get('apikey')
+        GOOGLEMAPS_KEY=request.args.get('apikey'),
+        options=countries_names
     )
 
 
@@ -102,17 +106,33 @@ def create_figure():
     return fig
 
 
-@app.route('/test')
-def chartTest():
-    fig = create_figure()
-    fig.savefig('/static/images/new_plot.png')
-    return render_template('untitled1.html', name='new_plot', url='/static/images/new_plot.png')
+# @app.route('/test')
+# def chartTest():
+#     fig = create_figure()
+#     fig.savefig('/static/images/new_plot.png')
+#     return render_template('untitled1.html', name='new_plot', url='/static/images/new_plot.png')
 
 
-@app.route('/call_this_function')
-def call_me():
-    print("hi")
-    return "None"
+@app.route('/calculate_table')
+def calculate_table():
+    source = request.args.get('source')
+    desti = request.args.get('desti'),
+    rslt = paths.get_paths(source, desti[0])
+    rslt_str = "["
+    for i, r in enumerate(rslt):
+        rslt_str += '["'
+        tmp_path_str = "->".join(r[:-1])
+        tmp_cost_str = str(round(r[-1], 2))
+        rslt_str += tmp_path_str
+        rslt_str += '", "'
+        rslt_str += tmp_cost_str
+        rslt_str += '", '
+        rslt_str += '"100%", "12%", "0.5"]'
+        if i != len(rslt) - 1:
+            rslt_str += ", "
+    rslt_str += "]"
+    print(rslt_str)
+    return rslt_str
 
 
 if __name__ == "__main__":

@@ -2,42 +2,252 @@
 endblock %} {% block scripts %}
 {{ collapsible.js }}
 {{ super() }}
+<script>
+  $(document).ready(function() {
+    $("#compute").click(function() {
+      $.ajax({
+        url: "{{ url_for('calculate_table') }}",
+        type: "GET",
+        data: { source: $("#source").val(), desti: $("#dest").val() },
+        contentType: "application/json; charset=utf-8"
+      }).done(function(reply) {
+        $("#resultBody").empty();
+        routes = JSON.parse(reply);
+        $.each(routes, function(index, value) {
+          let current_id = `row${index}`;
+          let current_paths_id = `paths${index}`;
+          $("#resultBody").append(
+            `<tr class="active" id=${current_id}>
+                <td>${index + 1}</td>
+                <td id=${current_paths_id}>${value[0]}</td>
+                <td>${value[1]}</td>
+                <td>${value[2]}</td>
+                <td>${value[3]}</td>
+                <td>${value[4]}</td>
+              </tr>`
+          );
+          // on click change image
+          $(`#${current_id}`).click(function() {
+            let current_paths = $(`#${current_paths_id}`).text();
+            let current_paths_list = current_paths.split("->");
+            let current_paths_list_min = [];
+            current_paths_list.forEach(function(item) {
+              current_paths_list_min.push(item.substring(0, 4));
+            });
+            let is_right = false;
+            $("#cards")
+              .children()
+              .each(function() {
+                if (current_paths_list_min.indexOf(this.id) != -1) {
+                  $(this).css("display", "inline-block");
+                  // if pull-right when not necessary
+                  if (!is_right && $(this).hasClass("pull-right"))
+                    $(this).removeClass("pull-right");
+                  else if (is_right && !$(this).hasClass("pull-right"))
+                    $(this).addClass("pull-right");
+                  is_right = !is_right;
+                } else {
+                  $(this).css("display", "None");
+                }
+              });
+          });
+        });
+        $("#little-circle-border").css("opacity", "1");
+        $("#resultTable").css("opacity", "1");
+        $("#resultText").css("opacity", "1");
+      });
+    });
+  });
+</script>
 {% endblock %} {% block styles %}
 {{ super() }}
 <link rel="stylesheet" href="{{url_for('.static', filename='style.css')}}" />
+<link
+  href="https://fonts.googleapis.com/css?family=Pacifico"
+  rel="stylesheet"
+/>
 {% endblock %}{% block navbar %}
 <div class="navbar navbar-fixed-top">
   <!-- ... -->
 </div>
 {% endblock %} {% block content %}
 <div class="container">
-  <h1 class="text-center">FC Sit Flight Planner</h1>
-  <h2 class="text-center">Map</h2>
-  <button id="collapsible_collapse" class="center-block btn btn-primary btn-lg">
+  <div id="circle-border">
+    <h1 class="text-center" id="title">FC Sit Flight Planner</h1>
+  </div>
+  <button
+    id="collapsible_collapse"
+    class="center-block btn btn-danger btn-lg"
+    style="margin-top:30px"
+  >
     Show map
   </button>
 
   {{ collapsible.html }}
 
-  <form>
-    <fieldset>
-      <div class="form-group">
-        <label for="source">Flight From</label>
-        <select id="source" class="form-control">
-          <option>Disabled select</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="dest">Flight To</label>
-        <select id="dest" class="form-control">
-          <option>Disabled select</option>
-        </select>
-      </div>
-      <a href="/call_this_function">
-        <button type="button" class="btn btn-primary center-block">Submit</button>
-      </a>
-    </fieldset>
-  </form>
+  <div
+    class="jumbotron"
+    style="background-color:white; margin-top:30px; border-style: solid; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
+  >
+    <form>
+      <fieldset>
+        <div class="form-group">
+          <label for="source">Flight From</label>
+          <select id="source" class="form-control" disabled>
+            <option value="Kuala Lumpur (KUL)">Kuala Lumpur (KUL)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="dest">Flight To</label>
+          <select id="dest" class="form-control">
+            {% for option in options%} {% if option != "Kuala Lumpur (KUL)" %}
+            <option value="{{ option }}">{{ option }}</option>
+            {% endif %} {% endfor %}
+          </select>
+        </div>
+        <button
+          type="button"
+          class="btn btn-danger center-block btn-lg"
+          style="margin-top:30px;"
+          id="compute"
+        >
+          Find the best routes
+        </button>
+      </fieldset>
+    </form>
+  </div>
+  <div id="little-circle-border" style="opacity:0;">
+    <h1 class="text-center" id="resultText" style="opacity:0;">
+      Your Suitable Routes
+    </h1>
+  </div>
+  <table
+    class="table"
+    style="margin-top:30px; opacity:0; margin-bottom: 100px;"
+    id="resultTable"
+  >
+    <thead>
+      <tr style="background-color:red; color:white">
+        <th>No.</th>
+        <th>Paths</th>
+        <th>Total Distance (KM)</th>
+        <th>Political Sentiment Results</th>
+        <th>Score*</th>
+        <th>Probability Distribution of Users</th>
+      </tr>
+    </thead>
+    <tbody id="resultBody"></tbody>
+  </table>
+  <div class="row justify-content-center" id="cards">
+    <div class="card card-default col" id="Toky" style="display:None;">
+      <span class="card-img">
+        <img
+          src="static/images/Tokyo - Haneda (HND).jpg"
+          class="img-responsive"
+          style="height: 450px;"
+        />
+      </span>
+      <span class="card-body">
+        <span class="h3 heading">Tokyo - Haneda (HND)</span>
+        <p class="pw">Percentage of positive words: 0%</p>
+        <p class="nw">Percentage of negative words: 0%</p>
+        <p class="ntw">Percentage of neutral words: 0%</p>
+      </span>
+    </div>
+    <div
+      class="card card-default col pull-right"
+      id="Bali"
+      style="display:None;"
+    >
+      <span class="card-img">
+        <img
+          src="static/images/Bali (DPS).jpg"
+          class="img-responsive"
+          style="height: 450px;"
+        />
+      </span>
+      <span class="card-body">
+        <span class="h3 heading">Bali (DPS)</span>
+        <p class="pw">Percentage of positive words: 0%</p>
+        <p class="nw">Percentage of negative words: 0%</p>
+        <p class="ntw">Percentage of neutral words: 0%</p>
+      </span>
+    </div>
+    <div class="card card-default col" id="Beij" style="display:None;">
+      <span class="card-img">
+        <img
+          src="static/images/Beijing (PEK).jpg"
+          class="img-responsive"
+          style="height: 450px;"
+        />
+      </span>
+      <span class="card-body">
+        <span class="h3 heading">Beijing (PEK)</span>
+        <p class="pw">Percentage of positive words: 0%</p>
+        <p class="nw">Percentage of negative words: 0%</p>
+        <p class="ntw">Percentage of neutral words: 0%</p>
+      </span>
+    </div>
+    <div
+      class="card card-default col pull-right"
+      id="Bang"
+      style="display:None;"
+    >
+      <span class="card-img">
+        <img
+          src="static/images/Bangkok - Don Mueang (DMK).jpg"
+          class="img-responsive"
+          style="height: 450px;"
+        />
+      </span>
+      <span class="card-body">
+        <span class="h3 heading">Bangkok - Don Mueang (DMK)</span>
+        <p class="pw">Percentage of positive words: 0%</p>
+        <p class="nw">Percentage of negative words: 0%</p>
+        <p class="ntw">Percentage of neutral words: 0%</p>
+      </span>
+    </div>
+    <div class="card card-default col" id="Brun" style="display:None;">
+      <span class="card-img">
+        <img
+          src="static/images/Brunei (BWN).jpg"
+          class="img-responsive"
+          style="height: 450px;"
+        />
+      </span>
+      <span class="card-body">
+        <span class="h3 heading">Brunei (BWN)</span>
+        <p class="pw">Percentage of positive words: 0%</p>
+        <p class="nw">Percentage of negative words: 0%</p>
+        <p class="ntw">Percentage of neutral words: 0%</p>
+      </span>
+    </div>
+    <div
+      class="card card-default col pull-right"
+      id="Melb"
+      style="display:None;"
+    >
+      <span class="card-img">
+        <img
+          src="static/images/Melbourne - Avalon (AVV).jpg"
+          class="img-responsive"
+          style="height: 450px;"
+        />
+      </span>
+      <span class="card-body">
+        <span class="h3 heading">Melbourne - Avalon (AVV)</span>
+        <p class="pw">Percentage of positive words: 0%</p>
+        <p class="nw">Percentage of negative words: 0%</p>
+        <p class="ntw">Percentage of neutral words: 0%</p>
+      </span>
+    </div>
+  </div>
 </div>
-
+<div class="footer">
+  <h5>
+    &copy2019 FC Sit Group. Your usage of FC Sit Flight Planner indicates that
+    you agree to be bound by our Terms and Conditions, Terms of Use and Privacy
+    Policy. This website is owned and operated by FC Sit Group.
+  </h5>
+</div>
 {% endblock %}
