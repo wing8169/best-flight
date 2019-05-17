@@ -64,9 +64,8 @@ def mapview():
     custom_map = Map(
         style=(
             "height:600px;"
-            "width:60%;"
+            "width:100%;"
             "margin-top:30px;"
-            "left:21%;"
             "position:relative;"
             "z-index:200;"
         ),
@@ -116,8 +115,8 @@ def create_figure():
 @app.route('/calculate_table')
 def calculate_table():
     source = request.args.get('source')
-    desti = request.args.get('desti'),
-    rslt = paths.get_paths(source, desti[0])
+    desti = request.args.get('desti')
+    rslt = paths.get_paths(source, desti)
     rslt_str = "["
     for i, r in enumerate(rslt):
         rslt_str += '["'

@@ -296,3 +296,33 @@ body {
   border-style: solid;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+@media only screen and (max-width: 500px) {
+  #title {
+    font-size: 4rem;
+  }
+  #circle-border {
+    width: 100%;
+    border-radius: 10%;
+    padding: 50px;
+  }
+  #collapsible {
+    height: 400px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 600px !important;
+  }
+}
+@media (min-width: 992px) {
+  .container {
+    width: 800px !important;
+  }
+}
+@media (min-width: 1200px) {
+  .container {
+    width: 1000px !important;
+  }
+}
