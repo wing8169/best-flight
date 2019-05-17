@@ -92,13 +92,15 @@ endblock %} {% block scripts %}
         <div class="form-group">
           <label for="source">Flight From</label>
           <select id="source" class="form-control" disabled>
-            <option value="Kuala Lumpur (KUL)">Kuala Lumpur (KUL)</option>
+            <option value="Malaysia - Kuala Lumpur (KUL)"
+              >Malaysia - Kuala Lumpur (KUL)</option
+            >
           </select>
         </div>
         <div class="form-group">
           <label for="dest">Flight To</label>
           <select id="dest" class="form-control">
-            {% for option in options%} {% if option != "Kuala Lumpur (KUL)" %}
+            {% for option in options%} {% if "KUL" not in option %}
             <option value="{{ option }}">{{ option }}</option>
             {% endif %} {% endfor %}
           </select>

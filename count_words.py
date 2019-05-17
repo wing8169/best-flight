@@ -15,7 +15,7 @@ word_counts = {}
 
 def get_word_counts():
     for country in countries:
-        if country == "Kuala Lumpur (KUL)":
+        if country == "Malaysia - Kuala Lumpur (KUL)":
             continue
         hand = open("news_feed/" + country + ".txt",
                     encoding="utf-8", errors="ignore")

@@ -68,7 +68,6 @@ def add_edges(routes):
 
 
 add_edges(countries_links)
-print(g.graph)
 
 
 def get_paths(src, dest):

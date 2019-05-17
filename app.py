@@ -132,7 +132,6 @@ def calculate_table():
         if i != len(rslt) - 1:
             rslt_str += ", "
     rslt_str += "]"
-    print(rslt_str)
     return rslt_str
 
 
