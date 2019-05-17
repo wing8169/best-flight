@@ -12,6 +12,8 @@ from matplotlib.figure import Figure
 
 import paths
 
+from count_words import word_counts
+
 app = Flask(__name__, template_folder="templates")
 
 Bootstrap(app)
