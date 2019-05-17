@@ -52,9 +52,7 @@ endblock %} {% block scripts %}
               });
           });
         });
-        $("#little-circle-border").css("opacity", "1");
-        $("#resultTable").css("opacity", "1");
-        $("#resultText").css("opacity", "1");
+        $("#best_routes").css("opacity", "1");
       });
     });
   });
@@ -116,28 +114,28 @@ endblock %} {% block scripts %}
       </fieldset>
     </form>
   </div>
-  <div id="little-circle-border" style="opacity:0;">
-    <h1 class="text-center" id="resultText" style="opacity:0;">
-      Your Suitable Routes
-    </h1>
+  <div id="best_routes" style="opacity:0;">
+    <div id="little-circle-border">
+      <h1 class="text-center" id="resultText">
+        Your Suitable Routes
+      </h1>
+    </div>
+    <table class="table" style="margin-top:30px;" id="resultTable">
+      <thead>
+        <tr style="background-color:red; color:white">
+          <th>No.</th>
+          <th>Paths</th>
+          <th>Total Distance (KM)</th>
+          <th>Political Sentiment Results</th>
+          <th>Score*</th>
+          <th>Probability Distribution of Users</th>
+        </tr>
+      </thead>
+      <tbody id="resultBody"></tbody>
+    </table>
+    <p>Click on any row for more information.</p>
+    <p style="margin-bottom: 100px">*Score: a + b = c</p>
   </div>
-  <table
-    class="table"
-    style="margin-top:30px; opacity:0; margin-bottom: 100px;"
-    id="resultTable"
-  >
-    <thead>
-      <tr style="background-color:red; color:white">
-        <th>No.</th>
-        <th>Paths</th>
-        <th>Total Distance (KM)</th>
-        <th>Political Sentiment Results</th>
-        <th>Score*</th>
-        <th>Probability Distribution of Users</th>
-      </tr>
-    </thead>
-    <tbody id="resultBody"></tbody>
-  </table>
   <div class="row justify-content-center" id="cards">
     <div class="card card-default col" id="Toky" style="display:None;">
       <span class="card-img">
