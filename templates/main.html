@@ -67,13 +67,19 @@ endblock %} {% block scripts %}
                     let pcts = JSON.parse(r);
                     id = pcts["id"];
                     $(`#pw${id}`).text(
-                      `Percentage of positive words: ${pcts["pct"][0]}%`
+                      `Percentage of positive words: ${pcts["pct"][0]}% (${
+                        pcts["pct"][1]
+                      })`
                     );
                     $(`#nw${id}`).text(
-                      `Percentage of negative words: ${pcts["pct"][1]}%`
+                      `Percentage of negative words: ${pcts["pct"][2]}% (${
+                        pcts["pct"][3]
+                      })`
                     );
                     $(`#ntw${id}`).text(
-                      `Percentage of neutral words: ${pcts["pct"][2]}%`
+                      `Percentage of neutral words: ${pcts["pct"][4]}% (${
+                        pcts["pct"][5]
+                      })`
                     );
                   });
                 } else {
@@ -156,7 +162,7 @@ endblock %} {% block scripts %}
       <table class="table" style="margin-top:30px;" id="resultTable">
         <thead>
           <tr style="background-color:red; color:white">
-            <th>No.</th>
+            <th>Rank</th>
             <th>Paths</th>
             <th>Total Distance (KM)</th>
             <th>Average Political Sentiment Results</th>

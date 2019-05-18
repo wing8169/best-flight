@@ -163,8 +163,11 @@ def get_pct():
         "id": c[:4],
         "pct": [
             sentiment_results[c]["positive_pct"],
+            sentiment_results[c]["positive"],
             sentiment_results[c]["negative_pct"],
+            sentiment_results[c]["negative"],
             sentiment_results[c]["neutral_pct"],
+            sentiment_results[c]["neutral"],
         ]
     }
     return str(pct_list).replace("'", '"')
