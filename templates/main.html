@@ -185,7 +185,7 @@ endblock %} {% block scripts %}
       *Click on any row for more information. The formula for score calculation
       is as follows:
     </p>
-    <p style="margin-bottom: 100px" class="text-center">
+    <p style="margin-bottom: 100px; overflow-x: auto;" class="text-center">
       $$Score = {LongestDistance - Distance \over LongestDistance -
       ShortestDistance} \times 70 + {PoliticalSentimentResults+100 \over 200}
       \times 30$$
