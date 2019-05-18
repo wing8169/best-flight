@@ -12,7 +12,7 @@ from matplotlib.figure import Figure
 
 import paths
 
-from count_words import word_counts
+from count_words import sentiment_results
 
 app = Flask(__name__, template_folder="templates")
 
@@ -114,21 +114,40 @@ def create_figure():
 #     return render_template('untitled1.html', name='new_plot', url='/static/images/new_plot.png')
 
 
+def calculate_average_sentiment(c):
+    rslt = 0
+    for c1 in c:
+        if c1 == "Malaysia - Kuala Lumpur (KUL)":
+            continue
+        rslt += sentiment_results[c1]["sentiment"]
+    return round(rslt / len(c), 2)
+
+
 @app.route('/calculate_table')
 def calculate_table():
+    # start find path
     source = request.args.get('source')
     desti = request.args.get('desti')
     rslt = paths.get_paths(source, desti)
+    # end find path
+    # start find score
+    # end find score
+    # start find probability distribution
     rslt_str = "["
     for i, r in enumerate(rslt):
+        # start find sentiment
+        current_sentiment = calculate_average_sentiment(r[:-1])
+        # end find sentiment
         rslt_str += '["'
         tmp_path_str = "->".join(r[:-1])
         tmp_cost_str = str(round(r[-1], 2))
         rslt_str += tmp_path_str
         rslt_str += '", "'
         rslt_str += tmp_cost_str
-        rslt_str += '", '
-        rslt_str += '"100%", "12%", "0.5"]'
+        rslt_str += '", "'
+        rslt_str += str(current_sentiment)
+        rslt_str += '%", '
+        rslt_str += '"12%", "0.5"]'
         if i != len(rslt) - 1:
             rslt_str += ", "
     rslt_str += "]"
