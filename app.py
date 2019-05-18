@@ -81,17 +81,13 @@ def create_figure():
         plt.title('Sentiment Analysis for ' + country)
         plt.savefig("static/images/" + country + ".png")
         plt.clf()
-    # fig = Figure()
-    # axis = fig.add_subplot(1, 1, 1)
-    # xs = range(100)
-    # ys = [random.randint(1, 50) for x in xs]
-    # axis.plot(xs, ys)
-    # return fig
+
+
+create_figure()
 
 
 @app.route("/")
 def mapview():
-    create_figure()
     custom_map = Map(
         style=(
             "height:600px;"
@@ -117,21 +113,6 @@ def mapview():
         GOOGLEMAPS_KEY=request.args.get('apikey'),
         options=countries_names
     )
-
-
-@app.route('/plot.png')
-def plot_png():
-    fig = create_figure()
-    output = io.BytesIO()
-    FigureCanvas(fig).print_png(output)
-    return Response(output.getvalue(), mimetype='image/png')
-
-
-# @app.route('/test')
-# def chartTest():
-#     fig = create_figure()
-#     fig.savefig('/static/images/new_plot.png')
-#     return render_template('untitled1.html', name='new_plot', url='/static/images/new_plot.png')
 
 
 def calculate_average_sentiment(c):
