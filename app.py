@@ -134,25 +134,21 @@ def calculate_table():
     # start find score
     # end find score
     # start find probability distribution
-    rslt_str = "["
+    rslt_str = []
     for i, r in enumerate(rslt):
         # start find sentiment
         current_sentiment = calculate_average_sentiment(r[:-1])
         # end find sentiment
-        rslt_str += '["'
+        rslt_str_small = []
         tmp_path_str = "->".join(r[:-1])
         tmp_cost_str = str(round(r[-1], 2))
-        rslt_str += tmp_path_str
-        rslt_str += '", "'
-        rslt_str += tmp_cost_str
-        rslt_str += '", "'
-        rslt_str += str(current_sentiment)
-        rslt_str += '%", '
-        rslt_str += '"12%", "0.5"]'
-        if i != len(rslt) - 1:
-            rslt_str += ", "
-    rslt_str += "]"
-    return rslt_str
+        rslt_str_small.append(tmp_path_str)
+        rslt_str_small.append(tmp_cost_str)
+        rslt_str_small.append(str(current_sentiment) + "%")
+        rslt_str_small.append("12%")
+        rslt_str_small.append("0.5")
+        rslt_str.append(rslt_str_small)
+    return str(rslt_str).replace("'", '"')
 
 
 @app.route('/get_pct')
