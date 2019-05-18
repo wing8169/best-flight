@@ -5,6 +5,12 @@ endblock %} {% block scripts %}
 <script>
   $(document).ready(function() {
     $("#compute").click(function() {
+      // hide the cards
+      $("#cards")
+        .children()
+        .each(function() {
+          $(this).css("display", "None");
+        });
       $.ajax({
         url: "{{ url_for('calculate_table') }}",
         type: "GET",
@@ -168,7 +174,7 @@ endblock %} {% block scripts %}
     <div class="card card-default col" id="Aust" style="display:None;">
       <span class="card-img">
         <img
-          src="static/images/Australia - Melbourne (MEL).jpg"
+          src="static/images/Australia - Melbourne (MEL).png"
           class="img-responsive"
           style="height: 450px;"
         />
@@ -187,7 +193,7 @@ endblock %} {% block scripts %}
     >
       <span class="card-img">
         <img
-          src="static/images/Brunei - Brunei (BWN).jpg"
+          src="static/images/Brunei - Brunei (BWN).png"
           class="img-responsive"
           style="height: 450px;"
         />
@@ -202,7 +208,7 @@ endblock %} {% block scripts %}
     <div class="card card-default col" id="Chin" style="display:None;">
       <span class="card-img">
         <img
-          src="static/images/China - Beijing (PEK).jpg"
+          src="static/images/China - Beijing (PEK).png"
           class="img-responsive"
           style="height: 450px;"
         />
@@ -221,7 +227,7 @@ endblock %} {% block scripts %}
     >
       <span class="card-img">
         <img
-          src="static/images/Indonesia - Bali (DPS).jpg"
+          src="static/images/Indonesia - Bali (DPS).png"
           class="img-responsive"
           style="height: 450px;"
         />
@@ -236,7 +242,7 @@ endblock %} {% block scripts %}
     <div class="card card-default col" id="Japa" style="display:None;">
       <span class="card-img">
         <img
-          src="static/images/Japan - Haneda (HND).jpg"
+          src="static/images/Japan - Haneda (HND).png"
           class="img-responsive"
           style="height: 450px;"
         />
@@ -270,7 +276,7 @@ endblock %} {% block scripts %}
     <div class="card card-default col" id="Taiw" style="display:None;">
       <span class="card-img">
         <img
-          src="static/images/Taiwan - Taipei (TPE).jpg"
+          src="static/images/Taiwan - Taipei (TPE).png"
           class="img-responsive"
           style="height: 450px;"
         />
@@ -289,7 +295,7 @@ endblock %} {% block scripts %}
     >
       <span class="card-img">
         <img
-          src="static/images/Thailand - Don Mueang (DMK).jpg"
+          src="static/images/Thailand - Don Mueang (DMK).png"
           class="img-responsive"
           style="height: 450px;"
         />
@@ -304,7 +310,7 @@ endblock %} {% block scripts %}
     <div class="card card-default col" id="Viet" style="display:None;">
       <span class="card-img">
         <img
-          src="static/images/Vietnam - Hanoi (HAN).jpg"
+          src="static/images/Vietnam - Hanoi (HAN).png"
           class="img-responsive"
           style="height: 450px;"
         />
