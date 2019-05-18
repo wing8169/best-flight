@@ -2,6 +2,10 @@
 endblock %} {% block scripts %}
 {{ collapsible.js }}
 {{ super() }}
+<script
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML"
+  async
+></script>
 <script>
   $(document).ready(function() {
     $("#compute").click(function() {
@@ -173,8 +177,15 @@ endblock %} {% block scripts %}
         <tbody id="resultBody"></tbody>
       </table>
     </div>
-    <p>Click on any row for more information.</p>
-    <p style="margin-bottom: 100px">*Score: a + b = c</p>
+    <p class="text-center">
+      *Click on any row for more information. The formula for score calculation
+      is as follows:
+    </p>
+    <p style="margin-bottom: 100px" class="text-center">
+      $$Score = {LongestDistance - Distance \over LongestDistance -
+      ShortestDistance} \times 70 + {PoliticalSentimentResults+100 \over 200}
+      \times 30$$
+    </p>
   </div>
   <div class="row justify-content-center" id="cards">
     <div class="card card-default col" id="Aust" style="display:None;">
