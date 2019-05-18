@@ -38,7 +38,10 @@ endblock %} {% block scripts %}
             $("#cards")
               .children()
               .each(function() {
-                if (current_paths_list_min.indexOf(this.id) != -1) {
+                if (
+                  current_paths_list_min.indexOf(this.id) != -1 &&
+                  this.id != "Mala"
+                ) {
                   $(this).css("display", "inline-block");
                   // if pull-right when not necessary
                   if (!is_right && $(this).hasClass("pull-right"))
@@ -46,6 +49,27 @@ endblock %} {% block scripts %}
                   else if (is_right && !$(this).hasClass("pull-right"))
                     $(this).addClass("pull-right");
                   is_right = !is_right;
+                  // get percentage for card
+                  $.ajax({
+                    url: "{{ url_for('get_pct') }}",
+                    type: "GET",
+                    data: {
+                      country: $(`#h${this.id}`).html()
+                    },
+                    contentType: "application/json; charset=utf-8"
+                  }).done(function(r) {
+                    let pcts = JSON.parse(r);
+                    id = pcts["id"];
+                    $(`#pw${id}`).text(
+                      `Percentage of positive words: ${pcts["pct"][0]}%`
+                    );
+                    $(`#nw${id}`).text(
+                      `Percentage of negative words: ${pcts["pct"][1]}%`
+                    );
+                    $(`#ntw${id}`).text(
+                      `Percentage of neutral words: ${pcts["pct"][2]}%`
+                    );
+                  });
                 } else {
                   $(this).css("display", "None");
                 }
@@ -150,10 +174,10 @@ endblock %} {% block scripts %}
         />
       </span>
       <span class="card-body">
-        <span class="h3 heading">Australia - Melbourne (MEL)</span>
-        <p class="pw">Percentage of positive words: 0%</p>
-        <p class="nw">Percentage of negative words: 0%</p>
-        <p class="ntw">Percentage of neutral words: 0%</p>
+        <span class="h3 heading" id="hAust">Australia - Melbourne (MEL)</span>
+        <p id="pwAust">Percentage of positive words: 0%</p>
+        <p id="nwAust">Percentage of negative words: 0%</p>
+        <p id="ntwAust">Percentage of neutral words: 0%</p>
       </span>
     </div>
     <div
@@ -169,10 +193,10 @@ endblock %} {% block scripts %}
         />
       </span>
       <span class="card-body">
-        <span class="h3 heading">Brunei - Brunei (BWN)</span>
-        <p class="pw">Percentage of positive words: 0%</p>
-        <p class="nw">Percentage of negative words: 0%</p>
-        <p class="ntw">Percentage of neutral words: 0%</p>
+        <span class="h3 heading" id="hBrun">Brunei - Brunei (BWN)</span>
+        <p id="pwBrun">Percentage of positive words: 0%</p>
+        <p id="nwBrun">Percentage of negative words: 0%</p>
+        <p id="ntwBrun">Percentage of neutral words: 0%</p>
       </span>
     </div>
     <div class="card card-default col" id="Chin" style="display:None;">
@@ -184,10 +208,10 @@ endblock %} {% block scripts %}
         />
       </span>
       <span class="card-body">
-        <span class="h3 heading">China - Beijing (PEK)</span>
-        <p class="pw">Percentage of positive words: 0%</p>
-        <p class="nw">Percentage of negative words: 0%</p>
-        <p class="ntw">Percentage of neutral words: 0%</p>
+        <span class="h3 heading" id="hChin">China - Beijing (PEK)</span>
+        <p id="pwChin">Percentage of positive words: 0%</p>
+        <p id="nwChin">Percentage of negative words: 0%</p>
+        <p id="ntwChin">Percentage of neutral words: 0%</p>
       </span>
     </div>
     <div
@@ -203,10 +227,10 @@ endblock %} {% block scripts %}
         />
       </span>
       <span class="card-body">
-        <span class="h3 heading">Indonesia - Bali (DPS)</span>
-        <p class="pw">Percentage of positive words: 0%</p>
-        <p class="nw">Percentage of negative words: 0%</p>
-        <p class="ntw">Percentage of neutral words: 0%</p>
+        <span class="h3 heading" id="hIndo">Indonesia - Bali (DPS)</span>
+        <p id="pwIndo">Percentage of positive words: 0%</p>
+        <p id="nwIndo">Percentage of negative words: 0%</p>
+        <p id="ntwIndo">Percentage of neutral words: 0%</p>
       </span>
     </div>
     <div class="card card-default col" id="Japa" style="display:None;">
@@ -218,10 +242,10 @@ endblock %} {% block scripts %}
         />
       </span>
       <span class="card-body">
-        <span class="h3 heading">Japan - Haneda (HND)</span>
-        <p class="pw">Percentage of positive words: 0%</p>
-        <p class="nw">Percentage of negative words: 0%</p>
-        <p class="ntw">Percentage of neutral words: 0%</p>
+        <span class="h3 heading" id="hJapa">Japan - Haneda (HND)</span>
+        <p id="pwJapa">Percentage of positive words: 0%</p>
+        <p id="nwJapa">Percentage of negative words: 0%</p>
+        <p id="ntwJapa">Percentage of neutral words: 0%</p>
       </span>
     </div>
     <div
@@ -237,10 +261,10 @@ endblock %} {% block scripts %}
         />
       </span>
       <span class="card-body">
-        <span class="h3 heading">Malaysia - Kuala Lumpur (KUL)</span>
-        <p class="pw">Percentage of positive words: 0%</p>
-        <p class="nw">Percentage of negative words: 0%</p>
-        <p class="ntw">Percentage of neutral words: 0%</p>
+        <span class="h3 heading" id="hMala">Malaysia - Kuala Lumpur (KUL)</span>
+        <p id="pwMala">Percentage of positive words: 0%</p>
+        <p id="nwMala">Percentage of negative words: 0%</p>
+        <p id="ntwMala">Percentage of neutral words: 0%</p>
       </span>
     </div>
     <div class="card card-default col" id="Taiw" style="display:None;">
@@ -252,10 +276,10 @@ endblock %} {% block scripts %}
         />
       </span>
       <span class="card-body">
-        <span class="h3 heading">Taiwan - Taipei (TPE)</span>
-        <p class="pw">Percentage of positive words: 0%</p>
-        <p class="nw">Percentage of negative words: 0%</p>
-        <p class="ntw">Percentage of neutral words: 0%</p>
+        <span class="h3 heading" id="hTaiw">Taiwan - Taipei (TPE)</span>
+        <p id="pwTaiw">Percentage of positive words: 0%</p>
+        <p id="nwTaiw">Percentage of negative words: 0%</p>
+        <p id="ntwTaiw">Percentage of neutral words: 0%</p>
       </span>
     </div>
     <div
@@ -271,10 +295,10 @@ endblock %} {% block scripts %}
         />
       </span>
       <span class="card-body">
-        <span class="h3 heading">Thailand - Don Mueang (DMK)</span>
-        <p class="pw">Percentage of positive words: 0%</p>
-        <p class="nw">Percentage of negative words: 0%</p>
-        <p class="ntw">Percentage of neutral words: 0%</p>
+        <span class="h3 heading" id="hThai">Thailand - Don Mueang (DMK)</span>
+        <p id="pwThai">Percentage of positive words: 0%</p>
+        <p id="nwThai">Percentage of negative words: 0%</p>
+        <p id="ntwThai">Percentage of neutral words: 0%</p>
       </span>
     </div>
     <div class="card card-default col" id="Viet" style="display:None;">
@@ -286,10 +310,10 @@ endblock %} {% block scripts %}
         />
       </span>
       <span class="card-body">
-        <span class="h3 heading">Vietnam - Hanoi (HAN)</span>
-        <p class="pw">Percentage of positive words: 0%</p>
-        <p class="nw">Percentage of negative words: 0%</p>
-        <p class="ntw">Percentage of neutral words: 0%</p>
+        <span class="h3 heading" id="hViet">Vietnam - Hanoi (HAN)</span>
+        <p id="pwViet">Percentage of positive words: 0%</p>
+        <p id="nwViet">Percentage of negative words: 0%</p>
+        <p id="ntwViet">Percentage of neutral words: 0%</p>
       </span>
     </div>
   </div>

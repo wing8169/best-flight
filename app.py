@@ -154,5 +154,20 @@ def calculate_table():
     return rslt_str
 
 
+@app.route('/get_pct')
+def get_pct():
+    # start find path
+    c = request.args.get('country')
+    pct_list = {
+        "id": c[:4],
+        "pct": [
+            sentiment_results[c]["positive_pct"],
+            sentiment_results[c]["negative_pct"],
+            sentiment_results[c]["neutral_pct"],
+        ]
+    }
+    return str(pct_list).replace("'", '"')
+
+
 if __name__ == "__main__":
     app.run(debug=True, use_reloader=True)
