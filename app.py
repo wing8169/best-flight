@@ -73,7 +73,7 @@ def create_figure():
             sentiment_results[country]["negative_pct"],
             sentiment_results[country]["positive_pct"],
         ]
-        color = ['lightcyan', 'powderblue', 'blue']
+        color = ['lightcyan', 'powderblue', '#7df293']
         explode = (0.1, 0, 0.05)
         plt.pie(frequency, labels=labels, colors=color,
                 startangle=90, explode=explode, autopct='%0.2f%%', shadow=True)
