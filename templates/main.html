@@ -104,6 +104,10 @@ endblock %} {% block scripts %}
   href="https://fonts.googleapis.com/css?family=Pacifico"
   rel="stylesheet"
 />
+<link
+  rel="shortcut icon"
+  href="{{ url_for('static', filename='favicon.ico') }}"
+/>
 {% endblock %}{% block navbar %}
 <div class="navbar navbar-fixed-top">
   <!-- ... -->
