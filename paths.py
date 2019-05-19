@@ -73,7 +73,5 @@ add_edges(countries_links)
 def get_paths(src, dest):
     global g
     rslt = g.get_all_paths(src, dest)
-    print(rslt)
-    print("hi")
     rslt.sort(key=lambda x: x[-1])
     return rslt
