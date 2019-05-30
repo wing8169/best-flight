@@ -10,7 +10,9 @@ from flask import Response
 from matplotlib.backends.backend_agg import FigureCanvasAgg as FigureCanvas
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+import numpy as np
 
+import time
 import paths
 
 from count_words import sentiment_results
@@ -64,6 +66,38 @@ def get_markers():
 
 def create_figure():
     countries_names = get_countries()
+    # Draw bar chart
+    # get number of groups
+    groups = len(countries_names) - 1
+    # get number of words for each country
+    normal_words = []
+    stop_words = []
+    country_tmp = []
+    for country in countries_names:
+        if country == "Malaysia - Kuala Lumpur (KUL)":
+            continue
+        country_tmp.append(country[country.index("(")+1: country.index(")")])
+        normal_words.append(sentiment_results[country]["positive"] +
+                            sentiment_results[country]["negative"] + sentiment_results[country]["neutral"])
+        stop_words.append(sentiment_results[country]["stop_words"])
+    normal_words = tuple(normal_words)  # put in frequency data
+    stop_words = tuple(stop_words)
+    y_pos = np.arange(groups)
+    bar_width = 0.35
+
+    rects1 = plt.bar(y_pos, normal_words, bar_width, alpha=0.8,
+                     color='lightblue', label='Normal Words')
+    rects2 = plt.bar(y_pos + bar_width, stop_words, bar_width,
+                     alpha=0.8, color='blue', label='Stop Words')
+
+    plt.xticks(y_pos + bar_width, tuple(country_tmp))
+    plt.xlabel('Country')
+    plt.ylabel('Frequency of words')
+    plt.title('Frequency of type of words')
+    plt.legend()  # show the label
+    plt.savefig("static/images/barchart.png")
+    plt.clf()
+    # Draw country pie chart
     for country in countries_names:
         if country == "Malaysia - Kuala Lumpur (KUL)":
             continue

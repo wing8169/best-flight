@@ -31,7 +31,12 @@ endblock %} {% block scripts %}
                 <td>${index + 1}</td>
                 <td id=${current_paths_id}>${value[0]}</td>
                 <td>${value[1]}</td>
-                <td>${value[2]}</td>
+                <td>${value[2] +
+                  " (" +
+                  (parseFloat(value[2].substring(0, value[2].length - 1)) < 0
+                    ? "Negative"
+                    : "Positive") +
+                  ")"}</td>
                 <td>${value[3]}</td>
                 <td>${value[4]}</td>
               </tr>`
@@ -161,6 +166,11 @@ endblock %} {% block scripts %}
     </form>
   </div>
   <div id="best_routes" style="opacity:0;">
+    <img
+      src="static/images/barchart.png"
+      style="margin-top: 30px; width: 100%; border-width: 3px; border-style: solid; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"
+      alt=""
+    />
     <div id="little-circle-border">
       <h1 class="text-center" id="resultText">
         Your Suitable Routes
